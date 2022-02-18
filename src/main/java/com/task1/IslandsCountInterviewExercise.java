@@ -8,6 +8,10 @@ import java.util.Queue;
 public class IslandsCountInterviewExercise {
 
 
+    // all possible cell movements
+    private static final int[] rowCellMovements = {-1, -1, -1, 0, 1, 0, 1, 1};
+    private static final int[] columnCellMovements = {-1, 1, 0, -1, -1, 1, 0, 1};
+
     public static void main(String[] args) {
 //        int[][] mat=
 //                {
@@ -49,11 +53,6 @@ public class IslandsCountInterviewExercise {
         System.out.print("The total number of islands is " + countIslandsBfs(mat));
     }
 
-
-    // all possible cell movements
-    private static final int[] rowCellMovements = {-1, -1, -1, 0, 1, 0, 1, 1};
-    private static final int[] columnCellMovements = {-1, 1, 0, -1, -1, 1, 0, 1};
-
     /**
      * Task:
      * Write a short program, which will count the number of islands. The following
@@ -61,14 +60,14 @@ public class IslandsCountInterviewExercise {
      * structure given to you could be very large in size, so beware of
      * implementation that could result in stack overflow or out-of-memory
      * exception.
-     *
+     * <p>
      * Algorithm of choice: BFS
-     *
+     * <p>
      * Algorithm details:
      * V - vertexes, total count of numbers in 2d array
      * E - edges
      * BFS -> time complexity O(v*e)
-     *        space complexity(v)
+     * space complexity(v)
      * Elements that mark land are set to elements representing water after they are
      *
      * @param map2d - 2d array containing 0's and 1's, where 1 = land, 0 = water
@@ -96,19 +95,15 @@ public class IslandsCountInterviewExercise {
 
     /**
      * Check if there is next step in certain direction
-     * @param map2d map
-     * @param newRow row to check if it's safe
-     * @param newCol column to check if it's safe
+     *
+     * @param map2d        map
+     * @param newRow       row to check if it's safe
+     * @param newCol       column to check if it's safe
      * @param rowRestraint max possible row
      * @param colRestraint max possible column
-     * @return
+     * @return true if this place is part of the map, and it denotes land
      */
     public static boolean isAvailableNextStep(int[][] map2d, int newRow, int newCol, int rowRestraint, int colRestraint) {
-        System.out.println("newRow: " + newRow);
-        System.out.println("newCol: " + newCol);
-        System.out.println("rowRestraint: " + rowRestraint);
-        System.out.println("colRestraint: " + colRestraint);
-//        System.out.println("newRow: " + newRow);
         return newRow >= 0 && newRow < rowRestraint
                 && newCol >= 0 && newCol < colRestraint
                 && newCol < map2d[newRow].length
@@ -118,7 +113,8 @@ public class IslandsCountInterviewExercise {
     /**
      * Starts with cell pointing to land, then move to all adjacent cell until all nearby land cells are found
      * After processing land cell, set it to water so it won't be processed again
-     * @param map2d matrix of map
+     *
+     * @param map2d   matrix of map
      * @param cellRow row index of cell with land
      * @param cellCol column index of cell with land
      */
@@ -128,7 +124,7 @@ public class IslandsCountInterviewExercise {
         que.add(new AbstractMap.SimpleImmutableEntry<>(cellRow, cellCol));
 
         // set currently processed cell to 0
-        map2d[cellRow][cellCol]=0;
+        map2d[cellRow][cellCol] = 0;
 
         while (!que.isEmpty()) {
             AbstractMap.SimpleImmutableEntry<Integer, Integer> cell = que.poll();
@@ -136,11 +132,10 @@ public class IslandsCountInterviewExercise {
             int y = cell.getValue();
 
             for (int k = 0; k < IslandsCountInterviewExercise.rowCellMovements.length; k++) {
-                System.out.println("Main.rowCellMovements[k] cell: " + IslandsCountInterviewExercise.rowCellMovements[k] + ","+ IslandsCountInterviewExercise.columnCellMovements[k] + " ");
                 int newCol = y + IslandsCountInterviewExercise.columnCellMovements[k];
                 int newRow = x + IslandsCountInterviewExercise.rowCellMovements[k];
                 if (isAvailableNextStep(map2d, newRow, newCol, map2d.length, map2d[cellRow].length)) {
-                    map2d[newRow][newCol]=0;
+                    map2d[newRow][newCol] = 0;
                     que.add(new AbstractMap.SimpleImmutableEntry<>(newRow, newCol));
                 }
             }

@@ -6,14 +6,15 @@ import net.objecthunter.exp4j.ExpressionBuilder;
 import java.util.Random;
 
 public class StringFormulaUtils {
-    
-    private StringFormulaUtils() {}
 
     private static final Random r = new Random();
     static String mathOperators = "+/*-";
+    private StringFormulaUtils() {
+    }
 
     /**
      * Generates random mathematical formula using 0-9 and 4 operators: +/*-
+     *
      * @return math formula in string form
      */
     public static String generateTask() {
@@ -37,6 +38,7 @@ public class StringFormulaUtils {
 
     /**
      * Given string formula of some kind, get it's real number
+     *
      * @param formula mathematical expression in string form
      * @return math result of formula
      */
